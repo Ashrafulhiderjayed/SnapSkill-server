@@ -26,6 +26,12 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    const classesCollection = client.db("summerCamp").collection("classes");
+    const cartCollection = client.db("summerCamp").collection("carts");
+    const usersCollection = client.db("summerCamp").collection("users");
+    const paymentCollection = client.db("summerCamp").collection("payments");
+    
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -40,10 +46,10 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => { 
-  res.send('Hello Server is running!');
+  res.send('HSummer Photo Camp Server is running!');
 })
 
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Summer Photo Camp Server is running on port ${port}`);
   })
