@@ -113,6 +113,18 @@ async function run() {
         res.send(result);
       });
 
+      //check user instructor or not?
+    app.get("/users/instructor/:email", verifyJWT, async (req, res) => {
+        const email = req.params.email;
+        if (req.decoded.email !== email) {
+          res.send({ instructor: false });
+        }
+        const query = { email: email };
+        const user = await usersCollection.findOne(query);
+        const result = { instructor: user?.role === "instructor" };
+        res.send(result);
+      });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
