@@ -339,12 +339,11 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-
-
+// 
+// 
 
 app.get('/', (req, res) => { 
-  res.send('HSummer Photo Camp Server is running!');
+  res.send('Summer Photo Camp Server is running!');
 })
 
 
