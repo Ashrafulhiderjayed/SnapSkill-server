@@ -31,7 +31,20 @@ async function run() {
     const cartCollection = client.db("summerCamp").collection("carts");
     const usersCollection = client.db("summerCamp").collection("users");
     const paymentCollection = client.db("summerCamp").collection("payments");
-    
+
+
+    //classes
+    app.get("/classes", async (req, res) => {
+        const query = { status: "approved" };
+        const result = await classesCollection.find(query).toArray();
+        res.send(result);
+      });
+      app.get("/pendingClasses", verifyJWT, verifyAdmin, async (req, res) => {
+        const result = await classesCollection.find().toArray();
+        res.send(result);
+      });
+
+      
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
