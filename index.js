@@ -101,6 +101,18 @@ async function run() {
         res.send(result);
       });
 
+      //check user admin or not?
+    app.get("/users/admin/:email", verifyJWT, async (req, res) => {
+        const email = req.params.email;
+        if (req.decoded.email !== email) {
+          res.send({ admin: false });
+        }
+        const query = { email: email };
+        const user = await usersCollection.findOne(query);
+        const result = { admin: user?.role === "admin" };
+        res.send(result);
+      });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
