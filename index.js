@@ -155,6 +155,29 @@ async function run() {
         res.send(result);
       });
 
+      app.get("/myClasses", async (req, res) => {
+        const query = { instructor_email: req.query.email };
+        const result = await classesCollection.find(query).toArray();
+        res.send(result);
+      });
+  
+      app.patch("/updateClasses/:id", async (req, res) => {
+        const body = req.body;
+        const id = req.params.id;
+        const filter = { _id: new ObjectId(id) };
+        console.log(body);
+        const price = parseFloat(body.price);
+        const seats = parseFloat(body.available_seats);
+        const update = {
+          $set: {
+            available_seats: seats,
+            price: price,
+          },
+        };
+        const result = await classesCollection.updateOne(filter, update);
+        res.send(result);
+      });
+
       //users related apis
     app.get("/users", verifyJWT, verifyAdmin, async (req, res) => {
         const result = await usersCollection.find().toArray();
